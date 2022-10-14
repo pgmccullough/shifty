@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/greeting', function () {
+    // return view('patrick');
+    $obj = new stdClass();
+    $obj->ID = 198;
+    $obj->username = "PGMcCullough";
+    return $obj;
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
