@@ -1,38 +1,50 @@
 import { useCallback, useEffect, useState } from "react";
-import { checkWord } from "../../tools";
+// import { checkWord } from "../../tools";
+import fourDictionary from '../../assets/words/en-us/four/index.json';
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-export const WordBlock = ({liveWord, setLiveWord, answers, setAnswers, word, outcomes, turn}) => {
-  
+export const WordBlock = ({outcomes, progress, setProgress, turn}) => {
 
-  if(turn===answers.length) {
+      const checkWord = (word) => {
+        let wordBitCheck = [...word];
+        wordBitCheck.splice(turn);
+        wordBitCheck = wordBitCheck.join("");
+        if(outcomes.matches.find(match => match.startsWith(wordBitCheck))) return {points: 3, message: "success"}
+        if(fourDictionary.includes(word)) return {points: 1, message: "valid word, but dead end"}
+        return {points: 0, message: "not a word"}
+      }
+
     const charSelect = (event) => {
-      if(alphabet.includes(event.key.toUpperCase())) {
-        const newWord = word.replace("_",event.key.toUpperCase());
-        console.log("I'm running check because "+turn+" equals "+answers.length);
-        console.log("PROOF: ",answers);
-        checkWord(newWord,outcomes,turn,answers,setAnswers);
+      const letter = event.key.toUpperCase();
+      if(alphabet.includes(letter)) {
+        const wordCheck = checkWord(progress[turn].replace("_",letter), outcomes);
+        if(wordCheck.points===3) {
+          let newProg = [...progress];
+          newProg[turn] = progress[turn].replace("_",letter);
+          if(turn<4) {
+            let nextRound = newProg[turn].split("");
+            nextRound[turn] = "_";
+            nextRound = nextRound.join("");
+            newProg[turn+1] = nextRound;
+          }
+          setProgress(newProg);
+        }
       }
     };
     
     useEffect(() => {
-      word = word.split("");
-      word[turn-1] = "_";
-      word = word.join("");
-      setLiveWord(word);
       document.addEventListener("keydown", charSelect, false);
       return () => {
         document.removeEventListener("keydown", charSelect, false);
       };
-    }, [charSelect]);
-  }
+    }, []);
 
     
 
     return (
         <div>
-          {turn===answers.length?liveWord:answers[turn]||"_ _ _ _"}
+          {progress[turn]}
         </div>
     )
 }

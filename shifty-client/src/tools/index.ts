@@ -24,17 +24,5 @@ export const checkOutcome = (word:string,i:number,isNew:boolean) => {
             }
         }
     })
-    return matches;
-}
-
-export const checkWord = (word, outcomes:[], checkIndex, answers, setAnswers) => {
-    console.log("checking "+word+" on turn "+answers.length);
-    outcomes.map(outcome => {
-      if([...outcome][checkIndex-1].toUpperCase()===word[0]) {
-        console.log(word[0]+" is acceptable!");
-        let tempAns = [...answers];
-        tempAns[checkIndex] = word;
-        setAnswers(tempAns);
-      };
-    })
+    return {word,matches}
 }
