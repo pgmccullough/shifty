@@ -10,7 +10,7 @@ export const getWord = () => {
     return startWord;
 }
 
-export const checkWord = (word:string,i:number,isNew:boolean) => {
+export const checkOutcome = (word:string,i:number,isNew:boolean) => {
     if(isNew) matches = [];
     let wordSplit = word.split("");
     wordSplit.splice(i,1,"!");
@@ -20,9 +20,18 @@ export const checkWord = (word:string,i:number,isNew:boolean) => {
             if(i===3) {
                 matches.push(newWord);
             } else {
-                checkWord(newWord,i+1,false);
+                checkOutcome(newWord,i+1,false);
             }
         }
     })
     return matches;
+}
+
+export const checkWord = (word, outcomes:[], checkIndex) => {
+    console.log(word,outcomes,checkIndex);
+    outcomes.map(outcome => {
+      if([...outcome][checkIndex-1].toUpperCase()===word[0]) {
+        console.log(word[0]+" is acceptable!");
+      };
+    })
 }
