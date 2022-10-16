@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import fourDictionary from '../../assets/words/en-us/four/index.json';
+import uuid from 'react-uuid';
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord, round, setRound}) => {
+export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord, round, setRound, userSession, tried, setTried}) => {
 
       const checkWord = (word, letter) => {
         let wordBitCheck = [...word];
@@ -18,8 +19,13 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
     const charSelect = (event) => {
       const letter = event.key.toUpperCase();
       if(alphabet.includes(letter)) {
+        
+        if(tried.includes(letter)) {
+          return console.log("can't duplicate word");
+        }
+        if(letter===(progress[turn-1][turn-1])) return console.log("NOPE");
         const wordCheck = checkWord(progress[turn].replace("_",letter), letter);
-        setHistory(current => [...current,{round, word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
+        setHistory({[userSession]:[...history[userSession],{round, word: progress[turn].replace("_",letter), wordCheck, outcomes}]});
         if(wordCheck.points===3) {
           let newProg = [...progress];
           newProg[turn] = progress[turn].replace("_",letter);
@@ -34,7 +40,12 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
             setRound(round+1);
             setTimeout(()=>{setNewWord();},2000)
           }
+          return setTried([]);
         }
+        // console.log("add letter "+letter+" to dupe l og?"+tried);
+        // let newDupeLog = [...tried,letter];
+        // console.log("NEW LOG SHOULD BE "+newDupeLog);
+        setTried([...tried,letter]);
       }
     };
     
@@ -51,12 +62,12 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
         <div className="word">
           {progress[turn].split("").map(letter =>
             <div
-              key={Math.random()+Date.now()+"_"+letter}
-              className={`word__letter${letter==="_"?" word__letter--"+history.length&&history[history.length-1]?" word__letter--"+history[history.length-1].wordCheck.class:" word__letter--active":""}`}
+              key={uuid()}
+              className={`word__letter${letter==="_"?" word__letter--"+history[userSession].length&&history[userSession][history[userSession].length-1]?" word__letter--"+history[userSession][history[userSession].length-1].wordCheck.class:" word__letter--active":""}`}
             >
               {letter==="_"?
-                history.length&&history[history.length-1]&&history[history.length-1].wordCheck.class==="error"||history.length&&history[history.length-1]&&history[history.length-1].wordCheck.class==="partial"?
-                history[history.length-1].wordCheck.letter:
+                history[userSession].length&&history[userSession][history[userSession].length-1]&&history[userSession][history[userSession].length-1].wordCheck.class==="error"||history[userSession].length&&history[userSession][history[userSession].length-1]&&history[userSession][history[userSession].length-1].wordCheck.class==="partial"?
+                history[userSession][history[userSession].length-1].wordCheck.letter:
                 "":
               letter}
             </div>

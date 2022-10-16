@@ -2,12 +2,31 @@ import './App.sass'
 import React,{ useEffect, useState } from 'react';
 import { WordBlock } from './components/WordBlock/WordBlock';
 import { checkOutcome } from './tools';
+import uuid from 'react-uuid';
+
+const userSession = `session__${uuid()}`;
+fetch("https://geolocation-db.com/json/")
+	.then((response) => response.json())
+  .then((data) => console.log(data.IPv4));
+
+let anonUser = localStorage.getItem("anonUser");
+
+if(!anonUser) {
+  anonUser = `anonUser__${uuid()}`;
+  localStorage.setItem("anonUser",anonUser);
+}
 
 export const App = () => {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState({[userSession]:[]});
   const [round, setRound] = useState(1);
   const [outcomes, setOutcomes] = useState({});
   const [progress, setProgress] = useState([null,null,null,null,null]);
+  const [tried, setTried] = useState([]);
+
+  // console.log(anonUser);
+  // console.log(userSession);
+  
+  
 
   const setNewWord = () => {
     let gameData = {word:"",matches:[]};
@@ -27,7 +46,7 @@ export const App = () => {
     <div className="App">
       <div className="board">
         {progress.map((prog,i) =>
-          <React.Fragment key={i}>
+          <React.Fragment key={uuid()}>
             {progress[i]&&!progress[i+1]?
               <div>
                 <WordBlock
@@ -40,12 +59,15 @@ export const App = () => {
                   setNewWord={setNewWord} 
                   round={round}
                   setRound={setRound}
+                  userSession={userSession}
+                  tried={tried}
+                  setTried={setTried}
                 />
               </div>:
               progress[i]?
               <div className="word">
                 {progress[i].split("").map(letter =>
-                  <div key={Date.now()+"_"+letter} className={`word__letter`}>
+                  <div key={uuid()} className={`word__letter`}>
                     {letter==="_"?"":letter}
                   </div>
                 )}
