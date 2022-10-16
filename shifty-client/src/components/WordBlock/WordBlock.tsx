@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { checkOutcome } from "../../tools";
+import { useEffect } from "react";
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-export const WordBlock = ({outcomes, setOutcomes, progress, setProgress, turn, setNewWord}) => {
+export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord}) => {
 
       const checkWord = (word) => {
         let wordBitCheck = [...word];
@@ -19,9 +18,9 @@ export const WordBlock = ({outcomes, setOutcomes, progress, setProgress, turn, s
     const charSelect = (event) => {
       const letter = event.key.toUpperCase();
       if(alphabet.includes(letter)) {
-        //console.log("it's a letter");
         const wordCheck = checkWord(progress[turn].replace("_",letter), outcomes);
-        console.log(wordCheck, progress[turn].replace("_",letter), outcomes);
+        console.log(history);
+        setHistory([...history,{word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
         if(wordCheck.points===3) {
           let newProg = [...progress];
           newProg[turn] = progress[turn].replace("_",letter);
