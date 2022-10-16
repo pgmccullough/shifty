@@ -3,7 +3,7 @@ import React,{ useEffect, useState } from 'react';
 import { WordBlock } from './components/WordBlock/WordBlock';
 import { checkOutcome } from './tools';
 
-function App() {
+export const App = () => {
   const [history, setHistory] = useState([]);
   const [round, setRound] = useState(1);
   const [outcomes, setOutcomes] = useState({});
@@ -25,45 +25,41 @@ function App() {
 
   return (
     <div className="App">
-      {/* <div style={{position: "fixed",right:"0px",bottom:"0px"}}>
-        <h1>History</h1>
-        {history.map((incident,i)=><div key={incident.round+"-"+i}>{incident.round+": "+incident.word+" "+JSON.stringify(incident.wordCheck)}</div>)}
-      </div> */}
-      {progress.map((prog,i) =>
-        <React.Fragment key={i}>
-          {progress[i]&&!progress[i+1]?
-            <div>
-              <WordBlock
-                history={history}
-                setHistory={setHistory}
-                turn={i} 
-                outcomes={outcomes} 
-                progress={progress} 
-                setProgress={setProgress} 
-                setNewWord={setNewWord} 
-                round={round}
-                setRound={setRound}
-              />
-            </div>:
-            progress[i]?
-            <div className="word">
-              {progress[i].split("").map(letter =>
-                <div className={`word__letter`}>
-                  {letter==="_"?"":letter}
-                </div>
-              )}
-            </div>:
+      <div className="board">
+        {progress.map((prog,i) =>
+          <React.Fragment key={i}>
+            {progress[i]&&!progress[i+1]?
+              <div>
+                <WordBlock
+                  history={history}
+                  setHistory={setHistory}
+                  turn={i} 
+                  outcomes={outcomes} 
+                  progress={progress} 
+                  setProgress={setProgress} 
+                  setNewWord={setNewWord} 
+                  round={round}
+                  setRound={setRound}
+                />
+              </div>:
+              progress[i]?
+              <div className="word">
+                {progress[i].split("").map(letter =>
+                  <div key={Date.now()+"_"+letter} className={`word__letter`}>
+                    {letter==="_"?"":letter}
+                  </div>
+                )}
+              </div>:
               <div className={`word`}>
                 <div className={`word__letter word__letter--active`}/ >
                 <div className={`word__letter word__letter--active`}/ >
                 <div className={`word__letter word__letter--active`}/ >
                 <div className={`word__letter word__letter--active`}/ >
               </div>
-          }
-        </React.Fragment>
-     )}
+            }
+          </React.Fragment>
+        )}
+      </div>
     </div>
   )
 }
-
-export default App

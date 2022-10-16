@@ -18,7 +18,6 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
     const charSelect = (event) => {
       const letter = event.key.toUpperCase();
       if(alphabet.includes(letter)) {
-        console.log(history[history.length-1]);
         const wordCheck = checkWord(progress[turn].replace("_",letter), letter);
         setHistory(current => [...current,{round, word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
         if(wordCheck.points===3) {
@@ -32,7 +31,6 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
           }
           setProgress(newProg);
           if(turn===4) {
-            console.log("YOU WIN! Play again in 2 seconds.");
             setRound(round+1);
             setTimeout(()=>{setNewWord();},2000)
           }
@@ -52,7 +50,8 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
     return (
         <div className="word">
           {progress[turn].split("").map(letter =>
-            <div 
+            <div
+              key={Math.random()+Date.now()+"_"+letter}
               className={`word__letter${letter==="_"?" word__letter--"+history.length&&history[history.length-1]?" word__letter--"+history[history.length-1].wordCheck.class:" word__letter--active":""}`}
             >
               {letter==="_"?
