@@ -5,6 +5,7 @@ import { checkOutcome } from './tools';
 
 function App() {
   const [history, setHistory] = useState([]);
+  const [round, setRound] = useState(1);
   const [outcomes, setOutcomes] = useState({});
   const [progress, setProgress] = useState([null,null,null,null,null]);
 
@@ -40,6 +41,8 @@ function App() {
                 progress={progress} 
                 setProgress={setProgress} 
                 setNewWord={setNewWord} 
+                round={round}
+                setRound={setRound}
               />
             </div>:
             progress[i]?

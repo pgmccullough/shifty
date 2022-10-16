@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord}) => {
+export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord, round, setRound}) => {
 
       const checkWord = (word) => {
         let wordBitCheck = [...word];
@@ -18,9 +18,9 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
     const charSelect = (event) => {
       const letter = event.key.toUpperCase();
       if(alphabet.includes(letter)) {
+        console.log(history[history.length-1]);
         const wordCheck = checkWord(progress[turn].replace("_",letter), outcomes);
-        console.log(history);
-        setHistory([...history,{word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
+        setHistory(current => [...current,{round, word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
         if(wordCheck.points===3) {
           let newProg = [...progress];
           newProg[turn] = progress[turn].replace("_",letter);
@@ -33,6 +33,7 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
           setProgress(newProg);
           if(turn===4) {
             console.log("YOU WIN! Play again in 2 seconds.");
+            setRound(round+1);
             setTimeout(()=>{setNewWord();},2000)
           }
         }
