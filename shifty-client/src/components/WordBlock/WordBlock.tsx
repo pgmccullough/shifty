@@ -5,21 +5,21 @@ const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P
 
 export const WordBlock = ({history, setHistory, outcomes, progress, setProgress, turn, setNewWord, round, setRound}) => {
 
-      const checkWord = (word) => {
+      const checkWord = (word, letter) => {
         let wordBitCheck = [...word];
         wordBitCheck.splice(turn);
         wordBitCheck = wordBitCheck.join("");
         const time = Date.now();
-        if(outcomes.matches.find(match => match.startsWith(wordBitCheck))) return {points: 3, message: "success", time}
-        if(fourDictionary.includes(word)) return {points: 1, message: "valid word, but dead end", time}
-        return {points: 0, message: "not a word", time}
+        if(outcomes.matches.find(match => match.startsWith(wordBitCheck))) return {points: 3, message: "success", time, class: "active", letter}
+        if(fourDictionary.includes(word)) return {points: 1, message: "valid word, but dead end", time, class: "partial", letter}
+        return {points: 0, message: "not a word", time, class: "error", letter}
       }
 
     const charSelect = (event) => {
       const letter = event.key.toUpperCase();
       if(alphabet.includes(letter)) {
         console.log(history[history.length-1]);
-        const wordCheck = checkWord(progress[turn].replace("_",letter), outcomes);
+        const wordCheck = checkWord(progress[turn].replace("_",letter), letter);
         setHistory(current => [...current,{round, word: progress[turn].replace("_",letter), wordCheck, outcomes}]);
         if(wordCheck.points===3) {
           let newProg = [...progress];
@@ -50,8 +50,18 @@ export const WordBlock = ({history, setHistory, outcomes, progress, setProgress,
     
 
     return (
-        <div>
-          {progress[turn]}
+        <div className="word">
+          {progress[turn].split("").map(letter =>
+            <div 
+              className={`word__letter${letter==="_"?" word__letter--"+history.length&&history[history.length-1]?" word__letter--"+history[history.length-1].wordCheck.class:" word__letter--active":""}`}
+            >
+              {letter==="_"?
+                history.length&&history[history.length-1]&&history[history.length-1].wordCheck.class==="error"||history.length&&history[history.length-1]&&history[history.length-1].wordCheck.class==="partial"?
+                history[history.length-1].wordCheck.letter:
+                "":
+              letter}
+            </div>
+          )}
         </div>
     )
 }

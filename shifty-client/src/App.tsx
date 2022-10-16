@@ -1,4 +1,4 @@
-import './App.css'
+import './App.sass'
 import React,{ useEffect, useState } from 'react';
 import { WordBlock } from './components/WordBlock/WordBlock';
 import { checkOutcome } from './tools';
@@ -25,10 +25,10 @@ function App() {
 
   return (
     <div className="App">
-      <div style={{position: "fixed",right:"0px",bottom:"0px"}}>
+      {/* <div style={{position: "fixed",right:"0px",bottom:"0px"}}>
         <h1>History</h1>
-        {history.map(incident=><div>{incident.word+" "+JSON.stringify(incident.wordCheck)}</div>)}
-      </div>
+        {history.map((incident,i)=><div key={incident.round+"-"+i}>{incident.round+": "+incident.word+" "+JSON.stringify(incident.wordCheck)}</div>)}
+      </div> */}
       {progress.map((prog,i) =>
         <React.Fragment key={i}>
           {progress[i]&&!progress[i+1]?
@@ -46,8 +46,19 @@ function App() {
               />
             </div>:
             progress[i]?
-              <div>{progress[i]}</div>:
-              <div>_ _ _ _</div>
+            <div className="word">
+              {progress[i].split("").map(letter =>
+                <div className={`word__letter`}>
+                  {letter==="_"?"":letter}
+                </div>
+              )}
+            </div>:
+              <div className={`word`}>
+                <div className={`word__letter word__letter--active`}/ >
+                <div className={`word__letter word__letter--active`}/ >
+                <div className={`word__letter word__letter--active`}/ >
+                <div className={`word__letter word__letter--active`}/ >
+              </div>
           }
         </React.Fragment>
      )}

@@ -1,0 +1,30 @@
+*,*:before,*:after
+  box-sizing: border-box
+
+body
+  font-family: Verdana, Geneva, Tahoma, sans-serif
+  
+.word
+  display: flex
+  &__letter
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 3rem
+    height: 3.5rem
+    border: 1px #ccc solid
+    margin: 0.25rem
+    border-bottom: 0.25rem #bde0fe solid
+    border-radius: 0.5rem
+    box-shadow: 0 0 6px 0 #ccc
+    text-align: center
+    &--active
+      border-bottom-color: #686868
+    &--error
+      border-bottom-color: red
+      color: #ccc
+    &--partial
+      border-bottom-color: yellow
+      color: #ccc
+    &--success
+      border-bottom-color: green
