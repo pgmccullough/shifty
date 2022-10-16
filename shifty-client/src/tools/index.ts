@@ -4,14 +4,20 @@ const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P
 
 let matches:[] = [];
 
-export const getWord = () => {
+const getWord = () => {
     const rand = Math.floor(Math.random()*fourDictionary.length);
     const startWord = fourDictionary[rand];
     return startWord;
 }
 
-export const checkOutcome = (word:string,i:number,isNew:boolean) => {
-    if(isNew) matches = [];
+export const checkOutcome = (i:number,isNew:boolean,passWord:string) => {
+    let word;
+    if(isNew) {
+        word = getWord();
+        matches = [];
+    } else {
+        word = passWord;
+    }
     let wordSplit = word.split("");
     wordSplit.splice(i,1,"!");
     alphabet.forEach(letter => {
@@ -20,7 +26,7 @@ export const checkOutcome = (word:string,i:number,isNew:boolean) => {
             if(i===3) {
                 matches.push(newWord);
             } else {
-                checkOutcome(newWord,i+1,false);
+                checkOutcome(i+1,false,newWord);
             }
         }
     })
