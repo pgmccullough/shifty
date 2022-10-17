@@ -16,6 +16,8 @@ if(!anonUser) {
   localStorage.setItem("anonUser",anonUser);
 }
 
+console.log('Make user table entry: ',anonUser,userSession,Date.now());
+
 export const App = () => {
   const [history, setHistory] = useState({[userSession]:[]});
   const [round, setRound] = useState(1);
@@ -23,14 +25,10 @@ export const App = () => {
   const [progress, setProgress] = useState([null,null,null,null,null]);
   const [tried, setTried] = useState([]);
 
-  // console.log(anonUser);
-  // console.log(userSession);
-  
-  
-
   const setNewWord = () => {
+    console.log("Update session table with ",history);
     let gameData = {word:"",matches:[]};
-    while(!gameData.matches.length) gameData = checkOutcome(0,true);
+    while(!gameData.matches.length) gameData = checkOutcome(0,true,"");
     let nextWord = [...gameData.word];
     nextWord[0] = "_";
     nextWord.join("");
@@ -45,7 +43,7 @@ export const App = () => {
   return (
     <div className="App">
       <div className="board">
-        {progress.map((prog,i) =>
+        {progress.map((_prog,i) =>
           <React.Fragment key={uuid()}>
             {progress[i]&&!progress[i+1]?
               <div>
@@ -66,7 +64,7 @@ export const App = () => {
               </div>:
               progress[i]?
               <div className="word">
-                {progress[i].split("").map(letter =>
+                {progress[i].split("").map((letter:String) =>
                   <div key={uuid()} className={`word__letter`}>
                     {letter==="_"?"":letter}
                   </div>
