@@ -24,6 +24,8 @@ export const App = () => {
   const [outcomes, setOutcomes] = useState({});
   const [progress, setProgress] = useState<(string | null)[]>([null,null,null,null,null]);
   const [tried, setTried] = useState([]);
+  const [timer, setTimer] = useState(0);
+  const [timerOn, toggleTimer] = useState(true);
 
   const setNewWord = () => {
     console.log("Update session table with ",history);
@@ -31,6 +33,8 @@ export const App = () => {
     while(!gameData.matches.length) gameData = checkOutcome(0,true,"");
     let nextWord = [...gameData.word];
     nextWord[0] = "_";
+    setTimer(timer+10);
+    toggleTimer(true);
     setOutcomes(gameData);
     setProgress([gameData.word,nextWord.join(""),null,null,null]);
   }
@@ -39,8 +43,26 @@ export const App = () => {
     setNewWord();
   },[]);
 
+  useEffect(()=> {
+    let countDown : any;
+    if(timer>=0) {
+      if(timerOn) {
+        countDown = setTimeout(
+          () => setTimer(timer-.06)
+          ,50
+        )
+      }
+    } else {
+      setTimer(0);
+    };
+    return () => {
+      clearTimeout(countDown);
+    }
+  },[timer])
+
   return (
     <div className="App">
+      <h1>{timer.toFixed(2)}</h1>
       <div className="board">
         {progress.map((_prog,i) =>
           <React.Fragment key={uuid()}>
@@ -59,6 +81,8 @@ export const App = () => {
                   userSession={userSession}
                   tried={tried}
                   setTried={setTried}
+                  timerOn={timerOn}
+                  toggleTimer={toggleTimer}
                 />
               </div>:
               progress[i]?

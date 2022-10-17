@@ -16,7 +16,9 @@ export interface iWordBlock {
     setRound:any,
     userSession:any,
     tried:any,
-    setTried:any
+    setTried:any,
+    timerOn:boolean,
+    toggleTimer:any
 }
 
 const getWord = () => {

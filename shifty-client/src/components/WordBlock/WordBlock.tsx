@@ -17,7 +17,9 @@ export const WordBlock = ({
   setRound,
   userSession, 
   tried, 
-  setTried
+  setTried,
+  timerOn,
+  toggleTimer
 }:iWordBlock) => {
   const checkWord = (word:string, letter:string) => {
     let wordBitCheck = [...word];
@@ -48,6 +50,7 @@ export const WordBlock = ({
         setProgress(newProg);
         if(turn===4) {
           setRound(round+1);
+          toggleTimer(!timerOn);
           setTimeout(()=>{setNewWord();},2000)
         }
         return setTried([]);
@@ -55,6 +58,11 @@ export const WordBlock = ({
       setTried([...tried,letter]);
     }
   };
+
+  const reportWord = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,word:String) => {
+    e.preventDefault();
+    console.log("report "+word);
+  }
     
   useEffect(() => {
     document.addEventListener("keydown", charSelect, false);
@@ -77,7 +85,7 @@ export const WordBlock = ({
           letter}
         </div>
       )}
-      {history[userSession].length&&history[userSession][history[userSession].length-1]&&history[userSession][history[userSession].length-1].wordCheck.class==="error"?<div className="word__message">Should {history[userSession][history[userSession].length-1].word} be a word?</div>:""}
+      {history[userSession].length&&history[userSession][history[userSession].length-1]&&history[userSession][history[userSession].length-1].wordCheck.class==="error"?<div className="word__message">Should <button onClick={(e)=>{reportWord(e,history[userSession][history[userSession].length-1].word)}}>{history[userSession][history[userSession].length-1].word}</button> be a word?</div>:""}
       
     </div>
   )
