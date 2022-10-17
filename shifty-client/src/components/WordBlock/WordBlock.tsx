@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 import uuid from 'react-uuid';
+import { iWordBlock } from "../../tools";
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-export const WordBlock = (
-  {
-    history, 
-    setHistory, 
-    outcomes,
-    progress,
-    setProgress,
-    turn, 
-    setNewWord, 
-    round, 
-    setRound,
-    userSession, 
-    tried, 
-    setTried
-  }) => {
+export const WordBlock = ({
+  history, 
+  setHistory, 
+  outcomes,
+  progress,
+  setProgress,
+  turn, 
+  setNewWord, 
+  round, 
+  setRound,
+  userSession, 
+  tried, 
+  setTried
+}:iWordBlock) => {
   const checkWord = (word:string, letter:string) => {
     let wordBitCheck = [...word];
     wordBitCheck.splice(turn);

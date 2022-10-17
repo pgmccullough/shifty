@@ -22,16 +22,15 @@ export const App = () => {
   const [history, setHistory] = useState({[userSession]:[]});
   const [round, setRound] = useState(1);
   const [outcomes, setOutcomes] = useState({});
-  const [progress, setProgress] = useState([null,null,null,null,null]);
+  const [progress, setProgress] = useState<(string | null)[]>([null,null,null,null,null]);
   const [tried, setTried] = useState([]);
 
   const setNewWord = () => {
     console.log("Update session table with ",history);
-    let gameData = {word:"",matches:[]};
+    let gameData:{word:string,matches:any[]} = {word:"",matches:[]};
     while(!gameData.matches.length) gameData = checkOutcome(0,true,"");
     let nextWord = [...gameData.word];
     nextWord[0] = "_";
-    nextWord.join("");
     setOutcomes(gameData);
     setProgress([gameData.word,nextWord.join(""),null,null,null]);
   }
@@ -64,7 +63,7 @@ export const App = () => {
               </div>:
               progress[i]?
               <div className="word">
-                {progress[i].split("").map((letter:String) =>
+                {progress[i]?.split("").map((letter:String) =>
                   <div key={uuid()} className={`word__letter`}>
                     {letter==="_"?"":letter}
                   </div>
