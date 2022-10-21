@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import fourDictionary from '../../client/src/assets/words/en-us/four/index.json';
+import fourDictionary from '../assets/words/en-us/four/index.json';
 import uuid from 'react-uuid';
-import { iWordBlock } from "../../client/src/tools";
+import { iWordBlock } from "../tools";
 
 const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 

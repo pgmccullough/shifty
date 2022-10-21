@@ -13,7 +13,8 @@
     "@react-native-async-storage/async-storage": "^1.17.10",
     "react": "18.1.0",
     "react-native": "0.70.3",
-    "react-uuid": "^1.0.3"
+    "react-uuid": "^1.0.3",
+    "rexml": "^2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
