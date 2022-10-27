@@ -1,6 +1,7 @@
 import './App.sass'
 import React,{ useEffect, useState } from 'react';
 import { WordBlock } from './components/WordBlock/WordBlock';
+import { Timer } from './components/Timer/Timer';
 import { checkOutcome } from './tools';
 import uuid from 'react-uuid';
 
@@ -24,7 +25,7 @@ export const App = () => {
   const [outcomes, setOutcomes] = useState({});
   const [progress, setProgress] = useState<(string | null)[]>([null,null,null,null,null]);
   const [tried, setTried] = useState([]);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(0.2);
   const [timerOn, toggleTimer] = useState(true);
 
   const setNewWord = () => {
@@ -45,7 +46,7 @@ export const App = () => {
 
   useEffect(()=> {
     let countDown : any;
-    if(timer>=0) {
+    if(timer>=0.1) {
       if(timerOn) {
         countDown = setTimeout(
           () => setTimer(timer-.06)
@@ -53,7 +54,10 @@ export const App = () => {
         )
       }
     } else {
-      setTimer(0);
+      console.log(timer);
+      if(timer<0.1&&timerOn) {
+        setTimer(0);
+      }
     };
     return () => {
       clearTimeout(countDown);
@@ -62,7 +66,9 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>{timer.toFixed(2)}</h1>
+      <Timer 
+        timer={timer}
+      />
       <div className="board">
         {progress.map((_prog,i) =>
           <React.Fragment key={uuid()}>
