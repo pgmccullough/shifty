@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { checkOutcome } from '../../tools';
-import uuid from 'react-uuid';
+//import uuid from 'react-uuid';
 const dummyRowArray = [0,1,2,3,4];
 
 export const WordBoard = () => {
@@ -48,13 +48,13 @@ export const WordBoard = () => {
             {dummyRowArray.map((_null,i)=>
                 <div 
                     className="word"
-                    key={uuid()}    
+                    //key={uuid()}    
                 >
                     {currentWord[i]
                         ?currentWord[i].map(letter => 
                             letter
-                                ?<div key={uuid()} className="word__letter">{letter}</div>
-                                :<div key={uuid()} className="word__letter word__letter--active">{activeLetter}</div>)
+                                ?<div /*key={uuid()}*/ className="word__letter">{letter}</div>
+                                :<div /*key={uuid()}*/ className="word__letter word__letter--active">{activeLetter}</div>)
                         :<>
                             <div className="word__letter"></div>
                             <div className="word__letter"></div>
