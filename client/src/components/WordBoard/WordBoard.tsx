@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { checkOutcome } from '../../tools';
 //import uuid from 'react-uuid';
 const dummyRowArray = [0,1,2,3,4];
+import fourDictionary from '../../assets/words/en-us/four/index.json';
 
 export const WordBoard = () => {
     
@@ -29,11 +30,18 @@ export const WordBoard = () => {
                     ===
                     prev[cloneArr.length-1].filter((_null,i) => i<cloneArr.length-1).join("")
             )) {
+                if(cloneArr.length===5) console.log("****COMPLETED****");
+                setActiveLetter("");
                 return [...cloneArr,newLine];
+            }
+            const curWord = prev.at(-1).join("");
+            if(fourDictionary.includes(curWord)) {
+                console.log(curWord+" is in dic even if not finisher.");
+            } else {
+                console.log(curWord+" is NOT a word");
             }
             return prev;
         });
-        setActiveLetter("");
     }
 
     useEffect(() => {
