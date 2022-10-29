@@ -1,7 +1,8 @@
-import './App.sass'
 import { useCallback, useEffect, useState } from 'react';
 import { WordBoard } from './components/WordBoard/WordBoard';
 import { Timer } from './components/Timer/Timer';
+
+import './App.sass'
 
 export const App = () => {
   const [timer, setTimer] = useState(10);
