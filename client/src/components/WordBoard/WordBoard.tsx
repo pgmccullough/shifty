@@ -5,8 +5,8 @@ import fourDictionary from '../../assets/words/en-us/four/index.json';
 
 export const WordBoard = () => {
     
-    const [possibleOutcomes,setPossibleOutcomes] = useState([]);
-    const [currentWord,setCurrentWord] = useState([]);
+    const [possibleOutcomes,setPossibleOutcomes] = useState<any>([]);
+    const [currentWord,setCurrentWord] = useState<any>([]);
     const [activeLetter,setActiveLetter] = useState("");
     const [guessState,setGuessState] = useState("active");
 
@@ -22,16 +22,16 @@ export const WordBoard = () => {
     }
 
     useEffect(() => {
-        setCurrentWord(prev => {
+        setCurrentWord((prev : any) => {
             let cloneArr = [...prev];
             cloneArr.at(-1).splice(cloneArr.length-2,1,activeLetter);
             let newLine = [...cloneArr.at(-1)];
             newLine[cloneArr.length-1] = "";
             if(possibleOutcomes.find(
-                match => 
+                (match : String) => 
                     match.split("").splice(0,cloneArr.length-1).join("")
                     ===
-                    prev[cloneArr.length-1].filter((_null,i) => i<cloneArr.length-1).join("")
+                    prev[cloneArr.length-1].filter((_null:any,i:Number) => i<cloneArr.length-1).join("")
             )) {
                 if(cloneArr.length===5) {
                     setPossibleOutcomes([]);
@@ -65,7 +65,7 @@ export const WordBoard = () => {
                     key={`row--${i}`}
                 >
                     {currentWord[i]
-                        ?currentWord[i].map((letter,x) => 
+                        ?currentWord[i].map((letter:String,x:Number) => 
                             i!==currentWord.length-1||x!==currentWord.length-2
                                 ?<div key={`letter--${i}-${x}`} className="word__letter">{letter}</div>
                                 :<div key={`letter--${i}-${x}`} className={`word__letter word__letter--${guessState}`}>{activeLetter}</div>
