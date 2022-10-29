@@ -1,24 +1,13 @@
 import fourDictionary from '../assets/words/en-us/four/index.json';
 
-const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+export const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
 let matches:string[] = [];
 
-export interface iWordBlock {
-    history:any, 
-    setHistory:any,
-    outcomes:any,
-    progress:any,
-    setProgress:any,
-    turn:any,
-    setNewWord:any, 
-    round:any,
-    setRound:any,
-    userSession:any,
-    tried:any,
-    setTried:any,
-    timerOn:boolean,
-    toggleTimer:any
+export interface iStatus {
+    paused: Boolean,
+    status:Number,
+    message:String|null
 }
 
 const getWord = () => {
