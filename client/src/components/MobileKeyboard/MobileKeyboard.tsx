@@ -13,6 +13,8 @@ const enKeys = [
 const keyboard = css`
     position: fixed;
     bottom: 0;
+    left: 0;
+    width: 100vw;
 `
 
 const keyrow = css`
