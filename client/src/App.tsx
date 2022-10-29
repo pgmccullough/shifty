@@ -64,6 +64,7 @@ export const App = () => {
         }
       `} />
       <Timer 
+        gameStatus={gameStatus}
         timer={timer}
       />
       <WordBoard

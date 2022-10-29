@@ -64,6 +64,12 @@ export const WordBoard = ({ gameStatus }:any) => {
         margin-top: 1.325rem;
     `
 
+    const blur = css`
+        filter: blur(4px);
+        opacity: 0.4;
+        transition: 1.5s;
+    `
+
     if(possibleOutcomes.length===0) {
         const response = checkOutcome(0,true,"");
         setPossibleOutcomes(response.matches);
@@ -114,7 +120,7 @@ export const WordBoard = ({ gameStatus }:any) => {
     }, [gameStatus]);
 
     return (
-        <div>
+        <div css={gameStatus.paused&&blur}>
             {dummyRowArray.map((_null,i)=>
                 <div 
                     css={word}
