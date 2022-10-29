@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 
-export const GameStatus = ({ gameStatus, setGameStatus } : any) => {
+export const GameStatus = ({ gameStatus } : any) => {
 
     let message = css`
         position: absolute;

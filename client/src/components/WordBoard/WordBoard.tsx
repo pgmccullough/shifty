@@ -10,7 +10,7 @@ import { alphabet, checkOutcome } from '../../tools';
 const dummyRowArray = [0,1,2,3,4];
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
-export const WordBoard = ({ gameStatus, setGameStatus, timer, setTimer }:any) => {
+export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setTimer }:any) => {
     
     const [possibleOutcomes, setPossibleOutcomes] = useState<any>([]);
     const [currentWord,setCurrentWord] = useState<any>([]);
@@ -76,10 +76,21 @@ export const WordBoard = ({ gameStatus, setGameStatus, timer, setTimer }:any) =>
         setCurrentWord([[...response.word.split("")],["",...response.word.slice(1,4)]]);
     }
 
-    const charSelect = (event: { key: string; }) => {
-        const letter = event.key.toUpperCase();
-        if(alphabet.includes(letter)) setActiveLetter(letter);
+    const charSelect = (event: { key: string; }, fromMobile : Boolean) => {
+        let letter;
+        if(fromMobile) {
+            letter = mobileLetter;
+            setActiveLetter(letter)
+        } else {
+            letter = event.key.toUpperCase();
+            if(alphabet.includes(letter)) setActiveLetter(letter);
+        }
     }
+
+    useEffect(()=>{
+        // Detect Entry via MobileKeyboard
+        charSelect(mobileLetter,true);
+    },[mobileLetter])
 
     useEffect(() => {
         setCurrentWord((prev : any) => {
@@ -122,9 +133,9 @@ export const WordBoard = ({ gameStatus, setGameStatus, timer, setTimer }:any) =>
 
     useEffect(() => {
         if(!gameStatus.paused) {
-            document.addEventListener("keydown", charSelect, false);
+            document.addEventListener("keydown", (e) => charSelect(e,false), false);
             return () => {
-                document.removeEventListener("keydown", charSelect, false);
+                document.removeEventListener("keydown", (e) => charSelect(e,false), false);
             };
         }
     }, [gameStatus]);

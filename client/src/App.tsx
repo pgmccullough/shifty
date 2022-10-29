@@ -6,11 +6,13 @@ import { Global, css, jsx } from '@emotion/react';
 import { useCallback, useEffect, useState } from 'react';
 import { WordBoard } from './components/WordBoard/WordBoard';
 import { GameStatus } from './components/GameStatus/GameStatus';
+import { MobileKeyboard } from './components/MobileKeyboard/MobileKeyboard';
 import { Timer } from './components/Timer/Timer';
 import { iStatus } from './tools';
 
 export const App = () => {
   const [timer, setTimer] = useState(10);
+  const [mobileLetter, setMobileLetter] = useState("");
   const [gameStatus, setGameStatus] = useState<iStatus>(
       {paused: false, status: 1, message: null, callback: null}
   );
@@ -69,13 +71,16 @@ export const App = () => {
       />
       <WordBoard
         gameStatus={gameStatus}
+        mobileLetter={mobileLetter}
         setGameStatus={setGameStatus}
         timer={timer}
         setTimer={setTimer}
       />
       <GameStatus 
         gameStatus={gameStatus}
-        setGameStatus={setGameStatus}
+      />
+      <MobileKeyboard 
+        setMobileLetter={setMobileLetter}
       />
     </div>
   )
