@@ -7,7 +7,8 @@ let matches:string[] = [];
 export interface iStatus {
     paused: Boolean,
     status:Number,
-    message:String|null
+    message:String|null,
+    callback:Function|null
 }
 
 const getWord = () => {

@@ -22,9 +22,21 @@ export const GameStatus = ({ gameStatus, setGameStatus } : any) => {
         `
         :display = css``;
 
+    const nextRound = () => {
+        setTimeout(
+            gameStatus.callback,
+            2000
+        );
+        return gameStatus.message;
+    }
+
     return (
         <div css={[message, display]}>
-            {gameStatus.paused?gameStatus.message:null}
+            {gameStatus.paused&&gameStatus.status===0?gameStatus.message:null}
+            {gameStatus.paused&&gameStatus.status===2
+                ?nextRound()
+                :null
+            }
         </div>
     )
 }

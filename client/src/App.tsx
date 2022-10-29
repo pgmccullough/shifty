@@ -12,7 +12,7 @@ import { iStatus } from './tools';
 export const App = () => {
   const [timer, setTimer] = useState(10);
   const [gameStatus, setGameStatus] = useState<iStatus>(
-    {paused: false, status: 1, message: null}
+      {paused: false, status: 1, message: null, callback: null}
   );
 
   const AppStyle = css`
@@ -42,7 +42,7 @@ export const App = () => {
       } else {
         if(timer<0.1) {
           setTimer(0);
-          setGameStatus({...gameStatus,paused: true,status:0,message:"Time's up!"});
+          setGameStatus({...gameStatus,paused: true,status:0,message:"Time's up!",callback:null});
         }
       };
       return () => {
@@ -69,6 +69,9 @@ export const App = () => {
       />
       <WordBoard
         gameStatus={gameStatus}
+        setGameStatus={setGameStatus}
+        timer={timer}
+        setTimer={setTimer}
       />
       <GameStatus 
         gameStatus={gameStatus}

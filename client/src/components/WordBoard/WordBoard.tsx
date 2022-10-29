@@ -10,9 +10,9 @@ import { alphabet, checkOutcome } from '../../tools';
 const dummyRowArray = [0,1,2,3,4];
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
-export const WordBoard = ({ gameStatus }:any) => {
+export const WordBoard = ({ gameStatus, setGameStatus, timer, setTimer }:any) => {
     
-    const [possibleOutcomes,setPossibleOutcomes] = useState<any>([]);
+    const [possibleOutcomes, setPossibleOutcomes] = useState<any>([]);
     const [currentWord,setCurrentWord] = useState<any>([]);
     const [activeLetter,setActiveLetter] = useState("");
     const [guessState,setGuessState] = useState("active");
@@ -94,7 +94,17 @@ export const WordBoard = ({ gameStatus }:any) => {
                     prev[cloneArr.length-1].filter((_null:any,i:Number) => i<cloneArr.length-1).join("")
             )) {
                 if(cloneArr.length===5) {
-                    setPossibleOutcomes([]);
+                    setGameStatus(
+                        {
+                            paused: true,
+                            status: 2,
+                            message: "WIN!",
+                            callback: () => {
+                                setGameStatus({paused: false, status: 1, message: null, callback: null});
+                                setPossibleOutcomes([]);
+                                setTimer((timer/2)+10);
+                            }}
+                    );
                 }
                 setActiveLetter("");
                 setGuessState("active");
