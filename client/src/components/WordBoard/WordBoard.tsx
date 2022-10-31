@@ -39,7 +39,7 @@ export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setT
     `
 
     const error = css`
-        border-bottom-color: red;
+        border-bottom-color: #EE7674;
         color: #ccc;
     `
         
@@ -49,11 +49,11 @@ export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setT
     `
 
     const partial = css`
-        border-bottom-color: yellow;
+        border-bottom-color: #EDD892;
         color: #ccc;
     `
     const success = css`
-        border-bottom-color: green;
+        border-bottom-color: #8AFFC1;
     `
 
     const message = css`

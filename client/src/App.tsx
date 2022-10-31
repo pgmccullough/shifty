@@ -2,6 +2,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { Global, css, jsx } from '@emotion/react';
+import shuftMono400 from './assets/typography/ShuftMono.ttf';
+import shuftMono400b from './assets/typography/ShuftMono-bold.ttf';
+import shuftMono400bi from './assets/typography/ShuftMono-bold-italic.ttf';
+import shuftMono400i from './assets/typography/ShuftMono-italic.ttf';
 
 import { useCallback, useEffect, useState } from 'react';
 import { WordBoard } from './components/WordBoard/WordBoard';
@@ -63,8 +67,36 @@ export const App = () => {
           box-sizing: border-box
         }
 
+        @font-face {
+          font-family: 'Shuft Mono';
+          src: url(${shuftMono400}) format('truetype');
+          font-weight: 400;
+          font-style: normal;
+        }
+        
+        @font-face {
+          font-family: 'Shuft Mono';
+          src: url(${shuftMono400i}) format('truetype');
+          font-weight: 400;
+          font-style: italic;
+        }
+        
+        @font-face {
+          font-family: 'Shuft Mono';
+          src: url(${shuftMono400b}) format('truetype');
+          font-weight: 700;
+          font-style: normal;
+        }
+  
+        @font-face {
+          font-family: 'Shuft Mono';
+          src: url(${shuftMono400bi}) format('truetype');
+          font-weight: 700;
+          font-style: italic;
+        }
+
         body {
-          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-family: 'Shuft Mono', Verdana, Geneva, Tahoma, sans-serif;
           margin: 0;
         }
       `} />
