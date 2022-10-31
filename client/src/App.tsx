@@ -8,6 +8,7 @@ import shuftMono400bi from './assets/typography/ShuftMono-bold-italic.ttf';
 import shuftMono400i from './assets/typography/ShuftMono-italic.ttf';
 
 import { useCallback, useEffect, useState } from 'react';
+import { Header } from './components/Header/Header';
 import { WordBoard } from './components/WordBoard/WordBoard';
 import { GameStatus } from './components/GameStatus/GameStatus';
 import { MobileKeyboard } from './components/MobileKeyboard/MobileKeyboard';
@@ -15,10 +16,10 @@ import { Timer } from './components/Timer/Timer';
 import { iStatus } from './tools';
 
 export const App = () => {
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(30);
   const [mobileLetter, setMobileLetter] = useState("");
   const [gameStatus, setGameStatus] = useState<iStatus>(
-      {paused: false, status: 1, message: null, callback: null}
+      {paused: false, status: 1, message: null, round: 1, callback: null}
   );
 
   const AppStyle = css`
@@ -33,7 +34,7 @@ export const App = () => {
   `
 
   const startTimer = () => {
-    setTimer(10);
+    setTimer(30);
   }
 
   useCallback(()=>{
@@ -100,6 +101,7 @@ export const App = () => {
           margin: 0;
         }
       `} />
+      <Header />
       <Timer 
         gameStatus={gameStatus}
         timer={timer}

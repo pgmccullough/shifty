@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "deploy": "aws s3 rm s3://shuft.app/ --recursive && npm run build && aws s3 sync dist/ s3://shuft.app --acl public-read && aws cloudfront create-invalidation --distribution-id E2PLF5AD1AVKBU --paths '/*'",
     "preview": "vite preview",
     "test-ct": "playwright test -c playwright-ct.config.ts"
   },

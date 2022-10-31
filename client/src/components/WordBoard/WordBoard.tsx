@@ -3,9 +3,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 
-import React, { useCallback } from 'react'; // had to add this for Emotion fragment issue
-
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; // Default imported for Emotion fragment issue
 import { alphabet, checkOutcome } from '../../tools';
 const dummyRowArray = [0,1,2,3,4];
 import fourDictionary from '../../assets/words/en-us/four/index.json';
@@ -96,9 +94,10 @@ export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setT
                     status: 2,
                     message: "WIN!",
                     callback: () => {
-                        setGameStatus({paused: false, status: 1, message: null, callback: null});
+                        setGameStatus({paused: false, status: 1, message: null, round:gameStatus.round+1, callback: null});
                         setPossibleOutcomes([]);
-                        setTimer((timer/2)+10);
+                        //setTimer((timer/2)+10);
+                        setTimer(30-(2.5*gameStatus.round));
                     }
                 }
             );

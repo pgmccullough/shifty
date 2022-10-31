@@ -8,6 +8,7 @@ export interface iStatus {
     paused: Boolean,
     status:Number,
     message:String|null,
+    round: Number,
     callback:Function|null
 }
 
