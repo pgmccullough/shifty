@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 
-import React from 'react'; // had to add this for Emotion fragment issue
+import React, { useCallback } from 'react'; // had to add this for Emotion fragment issue
 
 import { useEffect, useState } from 'react';
 import { alphabet, checkOutcome } from '../../tools';
@@ -13,9 +13,10 @@ import fourDictionary from '../../assets/words/en-us/four/index.json';
 export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setTimer }:any) => {
     
     const [possibleOutcomes, setPossibleOutcomes] = useState<any>([]);
-    const [currentWord,setCurrentWord] = useState<any>([]);
-    const [activeLetter,setActiveLetter] = useState("");
-    const [guessState,setGuessState] = useState("active");
+    const [currentWord, setCurrentWord] = useState<any>([]);
+    const [activeLetter, setActiveLetter] = useState("");
+    const [guessState, setGuessState] = useState("active");
+    const [hasWon, setHasWon] = useState<Boolean>(false);
 
     const word = css`
         display: flex;
@@ -87,49 +88,70 @@ export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setT
         }
     }
 
+    useEffect(() => {
+        if(hasWon) {
+            setGameStatus(
+                {
+                    paused: true,
+                    status: 2,
+                    message: "WIN!",
+                    callback: () => {
+                        setGameStatus({paused: false, status: 1, message: null, callback: null});
+                        setPossibleOutcomes([]);
+                        setTimer((timer/2)+10);
+                    }
+                }
+            );
+        }
+    },[hasWon])
+
     useEffect(()=>{
         // Detect Entry via MobileKeyboard
         charSelect(mobileLetter,true);
     },[mobileLetter])
 
     useEffect(() => {
-        setCurrentWord((prev : any) => {
-            let cloneArr = [...prev];
-            cloneArr.at(-1).splice(cloneArr.length-2,1,activeLetter);
-            let newLine = [...cloneArr.at(-1)];
-            newLine[cloneArr.length-1] = "";
-            if(possibleOutcomes.find(
-                (match : String) => 
-                    match.split("").splice(0,cloneArr.length-1).join("")
-                    ===
-                    prev[cloneArr.length-1].filter((_null:any,i:Number) => i<cloneArr.length-1).join("")
-            )) {
-                if(cloneArr.length===5) {
-                    setGameStatus(
-                        {
-                            paused: true,
-                            status: 2,
-                            message: "WIN!",
-                            callback: () => {
-                                setGameStatus({paused: false, status: 1, message: null, callback: null});
-                                setPossibleOutcomes([]);
-                                setTimer((timer/2)+10);
-                            }}
-                    );
+        if(!gameStatus.paused) {
+            setCurrentWord((prev : any) => {
+                let cloneArr = [...prev];
+                cloneArr.at(-1).splice(cloneArr.length-2,1,activeLetter);
+                let newLine = [...cloneArr.at(-1)];
+                newLine[cloneArr.length-1] = "";
+                if(possibleOutcomes.find(
+                    (match : String) => 
+                        match.split("").splice(0,cloneArr.length-1).join("")
+                        ===
+                        prev[cloneArr.length-1].filter((_null:any,i:Number) => i<cloneArr.length-1).join("")
+                )) {
+                    if(cloneArr.length===5) {
+                        setHasWon(true);
+                        // setGameStatus(
+                        //     {
+                        //         paused: true,
+                        //         status: 2,
+                        //         message: "WIN!",
+                        //         callback: () => {
+                        //             setGameStatus({paused: false, status: 1, message: null, callback: null});
+                        //             setPossibleOutcomes([]);
+                        //             setTimer((timer/2)+10);
+                        //         }
+                        //     }
+                        // );
+                    }
+                    setActiveLetter("");
+                    setGuessState("active");
+                    return [...cloneArr,newLine];
                 }
-                setActiveLetter("");
-                setGuessState("active");
-                return [...cloneArr,newLine];
-            }
-            const curWord = prev.at(-1).join("");
-            if(fourDictionary.includes(curWord)) {
-                setGuessState("partial");
-            } else if(activeLetter) {
-                setGuessState("error");
-            }
-            return prev;
-        });
-    },[currentWord,possibleOutcomes,activeLetter]);
+                const curWord = prev.at(-1).join("");
+                if(fourDictionary.includes(curWord)) {
+                    setGuessState("partial");
+                } else if(activeLetter) {
+                    setGuessState("error");
+                }
+                return prev;
+            });
+        }
+    },[currentWord,possibleOutcomes,activeLetter,gameStatus]);
 
     useEffect(() => {
         if(!gameStatus.paused) {
