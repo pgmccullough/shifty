@@ -84,9 +84,13 @@ export const Header = ({ gameStatus, setGameStatus, userPause, setUserPause }:an
 
     useEffect(()=> {
         if(userPause===true) {
-            setGameStatus((prev : any) => ({...gameStatus, paused: true, status: 0, message: "Paused", prePause: prev}));
+            if(!gameStatus.paused) {
+                setGameStatus((prev : any) => ({...gameStatus, paused: true, status: 3, message: "Paused", prePause: prev}));
+            }
         } else {
-            setGameStatus({...gameStatus.prePause});
+            if(gameStatus.status===3) {
+                setGameStatus({...gameStatus.prePause});
+            }
         }
     },[userPause])
 

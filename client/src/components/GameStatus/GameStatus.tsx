@@ -32,7 +32,7 @@ export const GameStatus = ({ gameStatus } : any) => {
 
     return (
         <div css={[message, display]}>
-            {gameStatus.paused&&gameStatus.status===0?gameStatus.message:null}
+            {gameStatus.paused&&(gameStatus.status===0||gameStatus.status===3)?gameStatus.message:null}
             {gameStatus.paused&&gameStatus.status===2
                 ?nextRound()
                 :null
