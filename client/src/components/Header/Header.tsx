@@ -1,13 +1,22 @@
 /** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react';
+import { css, jsx, keyframes } from '@emotion/react';
 
-export const Header = () => {
+import React, { useEffect, useState } from 'react';  // Default imported for Emotion fragment issue
+import { Menu } from '../Menu/Menu';
+
+export const Header = ({ gameStatus, setGameStatus, userPause, setUserPause }:any) => {
+
+    const scrollBorder = keyframes`
+        0% {background-position: 0 3.7rem;}
+        100% {background-position: -100vw 3.7rem;}
+    `
 
     const headStyle = css`
         display: flex;
         position: fixed;
+        z-index: 5;
         background: #fff;
         top: 0;
         left: 0;
@@ -28,6 +37,10 @@ export const Header = () => {
         }
     `;
 
+    const headStylePaused = css`
+        animation: ${scrollBorder} 3s linear infinite;
+    `;
+
     const hamburgerIcon = css`
         position: fixed;
         right: 0;
@@ -44,7 +57,7 @@ export const Header = () => {
         justify-content: center;
     `;
 
-    const hamburgerLine = css`
+    const hamburgerLines = css`
         width: 2rem;
         height: 4px;
         background: #666;
@@ -69,12 +82,27 @@ export const Header = () => {
         }
     `;
 
+    useEffect(()=> {
+        if(userPause===true) {
+            setGameStatus((prev : any) => ({...gameStatus, paused: true, status: 0, message: "Paused", prePause: prev}));
+        } else {
+            setGameStatus({...gameStatus.prePause});
+        }
+    },[userPause])
+
     return (
-        <div css={headStyle}>
-            S H <img src="/favicon-228.png" /> F T
-            <div css={hamburgerIcon}>
-                <div css={hamburgerLine} />
+        <>
+            <div css={gameStatus.paused?[headStyle,headStylePaused]:headStyle}>
+                S H <img src="/favicon-228.png" /> F T
+                <div css={hamburgerIcon}
+                    onClick={() => setUserPause(!userPause)}
+                >
+                    <div css={hamburgerLines} />
+                </div>
             </div>
-        </div>
+            <Menu 
+                userPause={userPause}
+            />
+        </>
     )
 }

@@ -18,19 +18,31 @@ import { iStatus } from './tools';
 export const App = () => {
   const [timer, setTimer] = useState(30);
   const [mobileLetter, setMobileLetter] = useState("");
+  const [userPause, setUserPause] = useState<Boolean>(false);
   const [gameStatus, setGameStatus] = useState<iStatus>(
       {paused: false, status: 1, message: null, round: 1, callback: null}
   );
 
   const AppStyle = css`
     height: 80vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: 0.25s;
     @media (min-width: 600px) {
       height: 100vh;
     }
+  `
+
+  const menuActive = css`
+    @media (min-width: 600px) {
+      width: 50vw;
+    }
+    @media (min-width: 1100px) {
+      width: 66vw;
+    }  
   `
 
   const startTimer = () => {
@@ -62,7 +74,7 @@ export const App = () => {
   },[timer,gameStatus])
 
   return (
-    <div css={AppStyle}>
+    <div css={userPause?[AppStyle, menuActive]:AppStyle}>
       <Global styles={css`
         *,*:before,*:after {
           box-sizing: border-box
@@ -101,7 +113,12 @@ export const App = () => {
           margin: 0;
         }
       `} />
-      <Header />
+      <Header
+        gameStatus={gameStatus}
+        setGameStatus={setGameStatus}
+        userPause={userPause}
+        setUserPause={setUserPause}
+      />
       <Timer 
         gameStatus={gameStatus}
         timer={timer}
