@@ -103,6 +103,7 @@ export const WordBoard = ({ gameStatus, mobileLetter, setGameStatus, timer, setT
                 }
             );
         }
+        setHasWon(false);
     },[hasWon])
 
     useEffect(()=>{
