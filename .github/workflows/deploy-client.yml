@@ -1,4 +1,4 @@
-name: Build and deploy client to AWS
+name: Build and deploy React App to AWS
 
 on:
   push:
