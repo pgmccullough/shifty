@@ -1,4 +1,4 @@
-name: Build and deploy to AWS
+name: Build and deploy shuft to AWS
 
 on:
   push:
