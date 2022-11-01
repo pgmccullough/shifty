@@ -22,7 +22,7 @@ jobs:
         working-directory: client
         run: npm run build
       - name: Share artifact inside workflow
-        uses: actions/upload-artifact@3
+        uses: actions/upload-artifact@1
         with:
           name: client
           path: build/client
