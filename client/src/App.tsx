@@ -19,6 +19,9 @@ export const App = () => {
   const [timer, setTimer] = useState(30);
   const [mobileLetter, setMobileLetter] = useState("");
   const [userPause, setUserPause] = useState<Boolean>(false);
+  const [gameHistory, trackGameHistory] = useState<{}>(
+    {session: "[uuid]", history: []}
+  ); // NOT CURRENTLY SET UP
   const [gameStatus, setGameStatus] = useState<iStatus>(
       {paused: false, status: 1, message: null, round: 1, callback: null}
   );
@@ -116,6 +119,8 @@ export const App = () => {
       <Header
         gameStatus={gameStatus}
         setGameStatus={setGameStatus}
+        gameHistory={gameHistory}
+        trackGameHistory={trackGameHistory}
         userPause={userPause}
         setUserPause={setUserPause}
       />
@@ -124,14 +129,18 @@ export const App = () => {
         timer={timer}
       />
       <WordBoard
+        gameHistory={gameHistory}
         gameStatus={gameStatus}
         mobileLetter={mobileLetter}
         setGameStatus={setGameStatus}
         timer={timer}
+        trackGameHistory={trackGameHistory}
         setTimer={setTimer}
       />
       <GameStatus 
+        gameHistory={gameHistory}
         gameStatus={gameStatus}
+        trackGameHistory={trackGameHistory}
       />
       <MobileKeyboard 
         setMobileLetter={setMobileLetter}
