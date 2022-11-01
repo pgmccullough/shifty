@@ -16,8 +16,10 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependencies
+        working-directory: client
         run: npm install    
       - name: Generate build
+        working-directory: client
         run: npm run build
       - name: Share artifact inside workflow
         uses: actions/upload-artifact@v1
