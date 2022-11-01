@@ -22,7 +22,7 @@ jobs:
         working-directory: client
         run: npm run build
       - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: shuft-build
           path: build
