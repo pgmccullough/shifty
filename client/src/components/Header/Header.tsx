@@ -97,7 +97,7 @@ export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameStatu
     return (
         <>
             <div css={gameStatus.paused?[headStyle,headStylePaused]:headStyle}>
-                S H <img src="/favicon-228.png" /> F T
+                SS H <img src="/favicon-228.png" /> F T
                 <div css={hamburgerIcon}
                     onClick={() => setUserPause(!userPause)}
                 >
