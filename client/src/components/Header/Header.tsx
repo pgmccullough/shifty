@@ -6,7 +6,7 @@ import { css, jsx, keyframes } from '@emotion/react';
 import React, { useEffect, useState } from 'react';  // Default imported for Emotion fragment issue
 import { Menu } from '../Menu/Menu';
 
-export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameStatus, userPause, setUserPause }:any) => {
+export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameRoute, setGameStatus, userPause, setUserPause }:any) => {
 
     const scrollBorder = keyframes`
         0% {background-position: 0 3.7rem;}
@@ -34,6 +34,12 @@ export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameStatu
         & img {
             width: 2rem;
             margin: 0.5rem;
+        }
+        & a {
+            text-decoration: none;
+            color: #666;
+            display: flex;
+            align-items: center;
         }
     `;
 
@@ -82,6 +88,11 @@ export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameStatu
         }
     `;
 
+    const logoClick = (e:any) => {
+        e.preventDefault();
+        setGameRoute("welcome");
+    } 
+
     useEffect(()=> {
         if(userPause===true) {
             if(!gameStatus.paused) {
@@ -97,7 +108,12 @@ export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameStatu
     return (
         <>
             <div css={gameStatus.paused?[headStyle,headStylePaused]:headStyle}>
-                S H <img src="/favicon-228.png" /> F T
+                <a 
+                    href="https://shuft.app/"
+                    onClick={logoClick}
+                >
+                    S H <img src="/favicon-228.png" /> F T
+                </a>
                 <div css={hamburgerIcon}
                     onClick={() => setUserPause(!userPause)}
                 >
