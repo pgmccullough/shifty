@@ -37,7 +37,7 @@ export const Menu = ({ badWords, userPause }:any) => {
 
     return (
         <div css={userPause?[menuStyle,active]:menuStyle}>
-            List of bad guesses: {badWords.map(badWord => <p>{badWord}</p>)}
+            List of bad guesses: {badWords.map((badWord:any) => <p>{badWord}</p>)}
         </div>
     )
 }
