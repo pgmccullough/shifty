@@ -3,7 +3,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 
-
 const enKeys = [
     ["Q","W","E","R","T","Y","U","I","O","P"],
     ["A","S","D","F","G","H","J","K","L"],
@@ -37,10 +36,6 @@ const key = css`
 `
 
 export const MobileKeyboard = ({ setMobileLetter }:any) => {
-    
-    const keyTap = (char:String) => {
-        setMobileLetter(char);
-    }
 
     return (
         <div css={keyboard}>
@@ -50,7 +45,7 @@ export const MobileKeyboard = ({ setMobileLetter }:any) => {
                         <div 
                             key={`charKey-${x}`} 
                             css={key}
-                            onClick={()=>keyTap(char)}
+                            onClick={()=>setMobileLetter(char)}
                         >
                             {char}
                         </div>)}
