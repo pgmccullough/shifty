@@ -76,7 +76,7 @@ export const App = () => {
         clearTimeout(countDown);
       }
     }
-  },[timer,gameStatus, gameRoute])
+  },[timer, gameStatus, gameRoute])
 
   useEffect(()=> {
     if(gameRoute!=="play") {
@@ -123,6 +123,19 @@ export const App = () => {
         body {
           font-family: 'Shuft Mono', Verdana, Geneva, Tahoma, sans-serif;
           margin: 0;
+        }
+
+        button {
+          display: block;
+          margin: 0.75rem auto;
+          border: none;
+          font-family: 'Shuft Mono',Verdana,Geneva,Tahoma,sans-serif;
+          width: 9rem;
+          height: 3rem;
+          cursor: pointer;
+          text-transform: uppercase;
+          padding: 0.5rem;
+          border-radius: 8px;
         }
       `} />
       <Header
