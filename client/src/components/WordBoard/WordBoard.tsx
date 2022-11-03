@@ -8,7 +8,7 @@ import { alphabet, checkOutcome } from '../../tools';
 const dummyRowArray = [0,1,2,3,4];
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
-export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileLetter, setGameStatus, timer, setTimer }:any) => {
+export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileLetter, setMobileLetter, setGameStatus, timer, setTimer }:any) => {
     
     const [possibleOutcomes, setPossibleOutcomes] = useState<any>([]);
     const [currentWord, setCurrentWord] = useState<any>([]);
@@ -81,11 +81,11 @@ export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileL
         let letter;
         if(fromMobile) {
             letter = mobileLetter;
-            setActiveLetter(letter)
+            setMobileLetter("");
         } else {
             letter = event.key.toUpperCase();
-            if(alphabet.includes(letter)) setActiveLetter(letter);
         }
+        if(alphabet.includes(letter)) setActiveLetter(letter);
     }
 
     useEffect(() => {
@@ -109,7 +109,7 @@ export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileL
 
     useEffect(()=>{
         // Detect Entry via MobileKeyboard
-        charSelect(mobileLetter,true);
+        charSelect(mobileLetter,true)
     },[mobileLetter])
 
     useEffect(() => {
@@ -142,18 +142,6 @@ export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileL
             });
         }
     },[currentWord,possibleOutcomes,activeLetter,gameStatus]);
-
-    // useEffect(()=>{
-    //     if(activeLetter) {
-    //         let myClone = [...currentWord.at(-1)];
-    //         if((guessState==="active"&&myClone.indexOf(""))) {
-    //             myClone[myClone.indexOf("")] = activeLetter;
-    //         }
-    //         console.log("TEST: ",activeLetter,guessState,myClone);
-    //     }
-    //     //setRoundMoves(current => [...current, {letter: activeLetter, row: currentWord.length-1, guess: currentWord.at(-1).join(""), result: guessState, timestamp: Date.now()}]);
-    // },[activeLetter,guessState,currentWord]);
-
 
     useEffect(() => {
         if(!gameStatus.paused) {

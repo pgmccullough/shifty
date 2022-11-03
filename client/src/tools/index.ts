@@ -22,6 +22,8 @@ export const checkOutcome = (i:number,isNew:boolean,passWord:string) => {
     let word:string;
     if(isNew) {
         word = getWord();
+        //TEST MODE
+        //word = "FEAT"; // feat >> beat >> boat >> boot >> book (check double letter)
         matches = [];
     } else {
         word = passWord;
