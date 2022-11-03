@@ -6,7 +6,7 @@ import { css, jsx, keyframes } from '@emotion/react';
 import React, { useEffect, useState } from 'react';  // Default imported for Emotion fragment issue
 import { Menu } from '../Menu/Menu';
 
-export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameRoute, setGameStatus, userPause, setUserPause }:any) => {
+export const Header = ({ badWords, trackGameHistory, gameHistory, gameStatus, setGameRoute, setGameStatus, userPause, setUserPause }:any) => {
 
     const scrollBorder = keyframes`
         0% {background-position: 0 3.7rem;}
@@ -122,6 +122,7 @@ export const Header = ({ trackGameHistory, gameHistory, gameStatus, setGameRoute
             </div>
             <Menu 
                 userPause={userPause}
+                badWords={badWords}
             />
         </>
     )
