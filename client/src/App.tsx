@@ -7,15 +7,17 @@ import shuftMono400b from './assets/typography/ShuftMono-bold.ttf';
 import shuftMono400bi from './assets/typography/ShuftMono-bold-italic.ttf';
 import shuftMono400i from './assets/typography/ShuftMono-italic.ttf';
 
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Header } from './components/Header/Header';
 import { WordBoard } from './components/WordBoard/WordBoard';
 import { GameStatus } from './components/GameStatus/GameStatus';
 import { MobileKeyboard } from './components/MobileKeyboard/MobileKeyboard';
 import { Timer } from './components/Timer/Timer';
+import { ContentModule } from './components/ContentModule/ContentModule';
 import { iStatus } from './tools';
 
 export const App = () => {
+  const [gameRoute, setGameRoute] = useState<String>("welcome");
   const [timer, setTimer] = useState(30);
   const [mobileLetter, setMobileLetter] = useState("");
   const [userPause, setUserPause] = useState<Boolean>(false);
@@ -52,12 +54,12 @@ export const App = () => {
     setTimer(30);
   }
 
-  useCallback(()=>{
-    startTimer();
+  useEffect(()=>{
+      startTimer();
   },[]);
 
   useEffect(()=> {
-    if(!gameStatus.paused) {
+    if((!gameStatus.paused)&&(gameRoute==="play")) {
       let countDown : any;
       if(timer>=0.1) {
           countDown = setTimeout(
@@ -74,7 +76,14 @@ export const App = () => {
         clearTimeout(countDown);
       }
     }
-  },[timer,gameStatus])
+  },[timer, gameStatus, gameRoute])
+
+  useEffect(()=> {
+    if(gameRoute!=="play") {
+      setTimer(30);
+      setGameStatus({paused: false, status: 1, message: null, round: 1, callback: null});
+    }
+  },[gameRoute])
 
   return (
     <div css={userPause?[AppStyle, menuActive]:AppStyle}>
@@ -115,6 +124,19 @@ export const App = () => {
           font-family: 'Shuft Mono', Verdana, Geneva, Tahoma, sans-serif;
           margin: 0;
         }
+
+        button {
+          display: block;
+          margin: 0.75rem auto;
+          border: none;
+          font-family: 'Shuft Mono',Verdana,Geneva,Tahoma,sans-serif;
+          width: 9rem;
+          height: 3rem;
+          cursor: pointer;
+          text-transform: uppercase;
+          padding: 0.5rem;
+          border-radius: 8px;
+        }
       `} />
       <Header
         gameStatus={gameStatus}
@@ -123,28 +145,37 @@ export const App = () => {
         trackGameHistory={trackGameHistory}
         userPause={userPause}
         setUserPause={setUserPause}
+        setGameRoute={setGameRoute}
       />
-      <Timer 
-        gameStatus={gameStatus}
-        timer={timer}
+      {gameRoute==="play"?
+        <>
+          <Timer 
+            gameStatus={gameStatus}
+            timer={timer}
+          />
+          <WordBoard
+            gameHistory={gameHistory}
+            gameStatus={gameStatus}
+            mobileLetter={mobileLetter}
+            setGameStatus={setGameStatus}
+            timer={timer}
+            trackGameHistory={trackGameHistory}
+            setTimer={setTimer}
+          />
+          <GameStatus 
+            gameHistory={gameHistory}
+            gameStatus={gameStatus}
+            trackGameHistory={trackGameHistory}
+          />
+          <MobileKeyboard 
+            setMobileLetter={setMobileLetter}
+          />
+        </>
+      :<ContentModule 
+        gameRoute={gameRoute}
+        setGameRoute={setGameRoute}
       />
-      <WordBoard
-        gameHistory={gameHistory}
-        gameStatus={gameStatus}
-        mobileLetter={mobileLetter}
-        setGameStatus={setGameStatus}
-        timer={timer}
-        trackGameHistory={trackGameHistory}
-        setTimer={setTimer}
-      />
-      <GameStatus 
-        gameHistory={gameHistory}
-        gameStatus={gameStatus}
-        trackGameHistory={trackGameHistory}
-      />
-      <MobileKeyboard 
-        setMobileLetter={setMobileLetter}
-      />
+      }
     </div>
   )
 }
