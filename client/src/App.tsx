@@ -157,6 +157,7 @@ export const App = () => {
             gameHistory={gameHistory}
             gameStatus={gameStatus}
             mobileLetter={mobileLetter}
+            setMobileLetter={setMobileLetter}
             setGameStatus={setGameStatus}
             timer={timer}
             trackGameHistory={trackGameHistory}
