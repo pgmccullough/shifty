@@ -61,7 +61,7 @@ const contentModule = css`
     flex-direction: column;
     justify-content: space-evenly;
     margin-top: 6rem; 
-    width: 30rem; 
+    width: 90vw; 
     min-height: 24rem; 
     text-align: center; 
     border-radius: 12px; 
@@ -69,6 +69,9 @@ const contentModule = css`
     padding: 0 2rem;
     line-height: 1.75rem;
     overflow: hidden;
+    @media (min-width: 600px) {
+        width: 30rem;
+    }
 `;
 const dotContainer = css`
     display: flex;
@@ -121,7 +124,11 @@ const backArrow = css`
 const nextArrow = css`
     text-align: left;
     padding-left: 1rem;
-    margin-left: 26rem;
+    right: 1vw;
+    @media (min-width: 600px) {
+        right: auto;
+        margin-left: 26rem;
+    }
 `
 const redBG = css`background:#ee7674`;
 const blueBG = css`background:#bde0fe`;
