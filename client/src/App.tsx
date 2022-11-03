@@ -21,6 +21,7 @@ export const App = () => {
   const [timer, setTimer] = useState(30);
   const [mobileLetter, setMobileLetter] = useState("");
   const [userPause, setUserPause] = useState<Boolean>(false);
+  const [badWords, addBadWord] = useState([]);
   const [gameHistory, trackGameHistory] = useState<{}>(
     {session: "[uuid]", history: []}
   ); // NOT CURRENTLY SET UP
@@ -146,6 +147,7 @@ export const App = () => {
         userPause={userPause}
         setUserPause={setUserPause}
         setGameRoute={setGameRoute}
+        badWords={badWords}
       />
       {gameRoute==="play"?
         <>
@@ -162,6 +164,8 @@ export const App = () => {
             timer={timer}
             trackGameHistory={trackGameHistory}
             setTimer={setTimer}
+            badWords={badWords}
+            addBadWord={addBadWord}
           />
           <GameStatus 
             gameHistory={gameHistory}

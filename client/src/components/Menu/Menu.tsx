@@ -3,7 +3,7 @@
 /** @jsx jsx */
 import { css, jsx, keyframes } from '@emotion/react';
 
-export const Menu = ({ userPause }:any) => {
+export const Menu = ({ badWords, userPause }:any) => {
 
     const menuStyle = css`
         position: fixed;
@@ -11,6 +11,7 @@ export const Menu = ({ userPause }:any) => {
         width: 100vw;
         top: -100vh;
         height: calc(100vh - 4rem);
+        padding: 2rem;
         background: #eee;
         box-shadow: 0 0 3px 0;
         transition: 0.25s;
@@ -35,6 +36,8 @@ export const Menu = ({ userPause }:any) => {
     `;
 
     return (
-        <div css={userPause?[menuStyle,active]:menuStyle}>K lol</div>
+        <div css={userPause?[menuStyle,active]:menuStyle}>
+            List of bad guesses: {badWords.map(badWord => <p>{badWord}</p>)}
+        </div>
     )
 }

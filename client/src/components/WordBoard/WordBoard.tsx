@@ -5,10 +5,11 @@ import { css, jsx } from '@emotion/react';
 
 import React, { useEffect, useState } from 'react'; // Default imported for Emotion fragment issue
 import { alphabet, checkOutcome } from '../../tools';
+import { Score } from '../Score/Score';
 const dummyRowArray = [0,1,2,3,4];
 import fourDictionary from '../../assets/words/en-us/four/index.json';
 
-export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileLetter, setMobileLetter, setGameStatus, timer, setTimer }:any) => {
+export const WordBoard = ({ _trackGameHistory, _gameHistory, addBadWord, gameStatus, mobileLetter, setMobileLetter, setGameStatus, timer, setTimer }:any) => {
     
     const [possibleOutcomes, setPossibleOutcomes] = useState<any>([]);
     const [currentWord, setCurrentWord] = useState<any>([]);
@@ -85,7 +86,9 @@ export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileL
         } else {
             letter = event.key.toUpperCase();
         }
-        if(alphabet.includes(letter)) setActiveLetter(letter);
+        if(alphabet.includes(letter)) {
+            setActiveLetter(letter);
+        }
     }
 
     useEffect(() => {
@@ -154,6 +157,11 @@ export const WordBoard = ({ _trackGameHistory, _gameHistory, gameStatus, mobileL
 
     return (
         <div css={gameStatus.paused&&blur}>
+            <Score 
+                addBadWord={addBadWord}
+                currentWord={currentWord}
+                guessState={guessState}
+            />
             {dummyRowArray.map((_null,i)=>
                 <div 
                     css={word}
